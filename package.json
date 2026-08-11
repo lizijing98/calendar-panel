@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "verify:release": "node scripts/verify-release-version.mjs",
     "version": "node version-bump.mjs && git add manifest.json versions.json"
   },
   "keywords": [
