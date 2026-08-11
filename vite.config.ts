@@ -71,7 +71,7 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     target: "es2021",
     sourcemap: mode === "development" ? "inline" : false,
-    minify: mode === "development" ? false : "esbuild",
+    minify: mode === "development" ? false : "oxc",
     lib: {
       entry: resolve(rootDir, "src/main.ts"),
       formats: ["cjs"],
