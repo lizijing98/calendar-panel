@@ -1,0 +1,44 @@
+{
+  "name": "calendar-panel",
+  "version": "0.1.0",
+  "description": "日记与周记的日历面板Obsidian插件 / An Obsidian plugin of calendar panel view for daily and weekly note.",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch --mode development",
+    "build": "tsc --noEmit --skipLibCheck && vite build",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "version": "node version-bump.mjs && git add manifest.json versions.json"
+  },
+  "keywords": [
+    "obsidian",
+    "calendar",
+    "plugin",
+    "daily-notes",
+    "vue"
+  ],
+  "author": "lizijing",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "3.5.41"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^22.15.17",
+    "@vitejs/plugin-vue": "6.0.8",
+    "eslint": "^9.39.4",
+    "eslint-plugin-obsidianmd": "^0.4.0",
+    "globals": "^17.6.0",
+    "jiti": "^2.6.1",
+    "moment": "2.30.1",
+    "obsidian": "latest",
+    "sass-embedded": "^1.100.0",
+    "tslib": "2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.59.1",
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  }
+}

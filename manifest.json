@@ -1,0 +1,10 @@
+{
+  "id": "Calendar Panel",
+  "name": "Calendar Panel",
+  "version": "0.1.0",
+  "minAppVersion": "1.13.0",
+  "description": "日记与周记的日历面板插件 / Calendar panel view for daily and weekly note.",
+  "author": "LL_Ricky",
+  "authorUrl": "https://github.com/lizijing98",
+  "isDesktopOnly": false
+}

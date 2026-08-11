@@ -1,0 +1,143 @@
+.calendar-vue {
+  &__header {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    align-items: center;
+    margin: 0.6em 0 1em;
+    padding: 0 8px;
+  }
+
+  &__month-title {
+    min-width: 0;
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--color-text-title);
+    font-size: 1.5em;
+    font-weight: var(--h3-weight, 600);
+    line-height: inherit;
+    white-space: normal;
+  }
+
+  &__month,
+  &__year {
+    display: inline-block;
+    padding: 0 2px;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    word-break: keep-all;
+
+    &:hover {
+      background: var(--interactive-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--interactive-accent);
+      outline-offset: 1px;
+    }
+  }
+
+  &__month {
+    color: inherit;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  &__year {
+    color: var(--interactive-accent);
+  }
+
+  &__year-window {
+    color: var(--interactive-accent);
+    font-size: 0.8em;
+    white-space: nowrap;
+  }
+
+  &__header-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  &__right-nav {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    margin-left: 6px;
+  }
+
+  &__legend {
+    display: flex;
+    min-width: max-content;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-faint);
+    font-size: 0.75em;
+    white-space: nowrap;
+
+    .calendar-vue__dot {
+      flex: 0 0 6px;
+      margin: 0;
+    }
+  }
+
+  &__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  &__nav-control {
+    display: flex;
+    width: 24px;
+    min-width: 24px;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    color: var(--color-arrow);
+    cursor: pointer;
+
+    &:hover {
+      background: transparent;
+      color: var(--color-arrow);
+    }
+
+    &--next {
+      transform: rotate(180deg);
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__today-control {
+    flex: 0 0 auto;
+    margin: 0 4px;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--color-button);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: inherit;
+    text-transform: uppercase;
+    white-space: nowrap;
+    word-break: keep-all;
+
+    &:hover {
+      background: var(--interactive-hover);
+    }
+  }
+}

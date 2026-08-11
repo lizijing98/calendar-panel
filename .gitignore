@@ -1,0 +1,20 @@
+# VS Code
+.vscode/
+
+# IntelliJ
+*.iml
+.idea/
+
+# npm
+node_modules/
+
+# Build artifacts belong in GitHub releases.
+main.js
+dist/
+*.map
+
+# Obsidian local settings
+data.json
+
+# macOS Finder metadata
+.DS_Store

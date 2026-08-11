@@ -1,0 +1,50 @@
+.calendar-vue {
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--interactive-accent);
+    outline-offset: 1px;
+  }
+}
+
+@container calendar-view (max-width: 300px) {
+  #calendar-container.calendar-vue,
+  .calendar-vue__header {
+    padding-inline: 0;
+  }
+
+  .calendar-vue {
+    &__month-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 1.3em;
+      height: 2.6em;
+      justify-content: center;
+    }
+
+    &__header-actions {
+      flex-direction: column-reverse;
+      align-self: stretch;
+      justify-content: space-around;
+    }
+
+    &__right-nav {
+      margin-left: 0;
+    }
+
+    &__nav-control {
+      width: 32px;
+      min-width: 32px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-vue {
+    &__day,
+    &__week,
+    &__selector-option,
+    &__create-note {
+      transition: none;
+    }
+  }
+}

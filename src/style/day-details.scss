@@ -1,0 +1,91 @@
+.calendar-vue {
+  &__day-details {
+    margin: 12px 8px 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--background-modifier-border);
+  }
+
+  &__create-note {
+    display: flex;
+    width: 100%;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: 1px solid var(--interactive-accent);
+    border-radius: 4px;
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    cursor: pointer;
+    font-size: var(--font-ui-small);
+    font-weight: var(--font-semibold);
+    transition: background-color 0.1s ease-in, border-color 0.1s ease-in;
+
+    &:hover {
+      border-color: var(--interactive-accent-hover);
+      background: var(--interactive-accent-hover);
+    }
+
+    &.is-disabled {
+      border-color: var(--background-modifier-border);
+      background: var(--background-secondary);
+      color: var(--text-faint);
+      cursor: default;
+    }
+  }
+
+  &__notes-heading {
+    margin: 14px 0 6px;
+    color: var(--text-muted);
+    font-size: var(--font-ui-smaller);
+    font-weight: var(--font-semibold);
+    letter-spacing: 0.04em;
+  }
+
+  &__note-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__note-item {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 8px;
+    border-radius: 4px;
+    color: var(--text-normal);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--interactive-hover);
+    }
+  }
+
+  &__note-name {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__note-path {
+    min-width: 0;
+    flex: 0 1 auto;
+    overflow: hidden;
+    color: var(--text-faint);
+    font-size: var(--font-ui-smaller);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__notes-empty {
+    margin: 0;
+    padding: 7px 8px;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: var(--font-ui-smaller);
+  }
+}

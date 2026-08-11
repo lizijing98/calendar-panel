@@ -1,0 +1,38 @@
+.calendar-vue-mount {
+  height: 100%;
+  overflow: auto;
+  container-name: calendar-view;
+  container-type: inline-size;
+}
+
+#calendar-container.calendar-vue {
+  --color-background-heading: transparent;
+  --color-background-day: transparent;
+  --color-background-weeknum: transparent;
+  --color-background-weekend: transparent;
+  --color-dot: var(--interactive-accent);
+  --color-arrow: var(--text-muted);
+  --color-button: var(--text-muted);
+  --color-text-title: var(--text-normal);
+  --color-text-heading: var(--text-muted);
+  --color-text-day: var(--text-normal);
+  --color-text-today: var(--interactive-accent);
+  --color-text-weeknum: var(--text-muted);
+
+  padding: 0 4px;
+  box-sizing: border-box;
+  color: var(--text-normal);
+  font-family: var(--font-interface);
+}
+
+.calendar-vue {
+  &__month-title,
+  &__nav-control,
+  &__today-control,
+  &__day,
+  &__week {
+    border: 0;
+    box-shadow: none;
+    font: inherit;
+  }
+}
