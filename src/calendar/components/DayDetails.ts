@@ -28,6 +28,11 @@ export const DayDetails = defineComponent({
       type: Object as PropType<TFile | undefined>,
       default: undefined,
     },
+    // Frontmatter 中包含当前日期的普通笔记，已排除上方日记。
+    notes: {
+      type: Array as PropType<TFile[]>,
+      default: () => [],
+    },
     // 负责创建、打开日记及显示文件菜单的 Obsidian 视图控制器。
     controller: {
       type: Object as PropType<CalendarController>,
@@ -47,6 +52,30 @@ export const DayDetails = defineComponent({
         event.metaKey || event.ctrlKey,
       );
     };
+
+    const renderNote = (file: TFile, open: (event: MouseEvent | KeyboardEvent) => void) =>
+      h("li", { key: file.path }, [
+        h(
+          "div",
+          {
+            class: "calendar-vue__note-item",
+            role: "button",
+            tabindex: 0,
+            title: t("calendar.openFile", { name: file.path }),
+            onClick: (event: MouseEvent) => open(event),
+            onKeydown: (event: KeyboardEvent) =>
+              activateOnKeyboard(event, () => open(event)),
+            onContextmenu: (event: MouseEvent) => {
+              event.preventDefault();
+              props.controller.showFileMenu(file, event);
+            },
+          },
+          [
+            h("span", { class: "calendar-vue__note-name" }, file.basename),
+            h("span", { class: "calendar-vue__note-path" }, file.path),
+          ],
+        ),
+      ]);
 
     return () => {
       const canCreate = !props.file;
@@ -77,35 +106,35 @@ export const DayDetails = defineComponent({
         ),
         props.file
           ? h("ul", { class: "calendar-vue__note-list" }, [
-            h("li", { key: props.file.path }, [
-              h(
-                "div",
-                {
-                  class: "calendar-vue__note-item",
-                  role: "button",
-                  tabindex: 0,
-                  title: t("calendar.openFile", { name: props.file.path }),
-                  onClick: (event: MouseEvent) => openDay(event),
-                  onKeydown: (event: KeyboardEvent) =>
-                    activateOnKeyboard(event, () => openDay(event)),
-                  onContextmenu: (event: MouseEvent) => {
-                    event.preventDefault();
-                    if (props.file) {
-                      props.controller.showFileMenu(props.file, event);
-                    }
-                  },
-                },
-                [
-                  h("span", { class: "calendar-vue__note-name" }, props.file.basename),
-                  h("span", { class: "calendar-vue__note-path" }, props.file.path),
-                ],
-              ),
-            ]),
+            renderNote(props.file, openDay),
           ])
           : h(
             "p",
             { class: "calendar-vue__notes-empty" },
             t("details.noDaily"),
+          ),
+        h(
+          "h3",
+          { class: "calendar-vue__notes-heading" },
+          t("details.notesHeading", { date: dateLabel }),
+        ),
+        props.notes.length
+          ? h(
+            "ul",
+            { class: "calendar-vue__note-list" },
+            props.notes.map((file) =>
+              renderNote(file, (event) => {
+                void props.controller.openNote(
+                  file,
+                  event.metaKey || event.ctrlKey,
+                );
+              }),
+            ),
+          )
+          : h(
+            "p",
+            { class: "calendar-vue__notes-empty" },
+            t("details.noNotes"),
           ),
       ]);
     };

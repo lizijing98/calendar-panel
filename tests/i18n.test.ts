@@ -19,7 +19,7 @@ describe("界面多语言", () => {
 
   it("支持中英文文案和参数插值", () => {
     expect(translate("zh-CN", "details.dailyHeading", { date: "2026-08-11" }))
-      .toBe("2026-08-11 当日日记");
+      .toBe("2026-08-11 日记");
     expect(translate("en", "details.dailyHeading", { date: "2026-08-11" }))
       .toBe("Daily note for 2026-08-11");
   });

@@ -2,6 +2,7 @@
   &__table {
     width: 100%;
     height: 240px;
+    table-layout: fixed;
     border-collapse: separate;
     border-spacing: 2px;
   }
@@ -25,7 +26,6 @@
 
   &__week-cell {
     padding: 0;
-    border-right: 1px solid var(--background-modifier-border);
   }
 
   &__cell {
@@ -40,6 +40,7 @@
   &__week {
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
     padding: 4px;
     border-radius: 4px;
     background-color: var(--color-background-day);
@@ -122,14 +123,26 @@
       top: 1px;
       left: 1px;
       box-sizing: border-box;
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       content: "";
     }
 
     &--filled::before {
       background-color: var(--color-dot);
+    }
+
+    &--note {
+      color: var(--color-dot);
+      font-size: 10px;
+      font-weight: var(--font-bold);
+      line-height: 8px;
+      text-align: center;
+    }
+
+    &--note::before {
+      content: "*";
     }
 
     &--task::before {
@@ -146,6 +159,10 @@
 
     .calendar-vue__dot--task::before {
       border-color: var(--text-on-accent);
+    }
+
+    .calendar-vue__dot--note {
+      color: var(--text-on-accent);
     }
   }
 

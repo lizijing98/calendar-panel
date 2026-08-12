@@ -118,15 +118,20 @@ export const CalendarApp = defineComponent({
         props.state.settings.showWeekNumbers,
       ],
       () => {
-        // 仅加载当前网格中可见的日记/周记，避免扫描整个仓库的正文。
+        // 仅加载当前网格日期所需的周期笔记元数据和 Frontmatter 日期关联。
         const visibleFiles: Array<TFile | undefined> = [];
+        const visibleDateIds: string[] = [];
         for (const week of weeks.value) {
+          visibleDateIds.push(...week.days.map((day) => day.id));
           visibleFiles.push(
             ...week.days.map((day) => props.state.dailyNotes[day.id]),
             props.state.weeklyNotes[week.id],
           );
         }
-        void props.controller.loadMetadata(uniqueFiles(visibleFiles));
+        void Promise.all([
+          props.controller.loadMetadata(uniqueFiles(visibleFiles)),
+          props.controller.loadDatedNotes(visibleDateIds),
+        ]);
       },
       { immediate: true },
     );
@@ -181,6 +186,7 @@ export const CalendarApp = defineComponent({
           ? h(DayDetails, {
             day,
             file: props.state.dailyNotes[day.id],
+            notes: props.state.datedNotes[day.id] ?? [],
             controller: props.controller,
             locale: props.state.uiLocale,
           })

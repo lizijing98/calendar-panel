@@ -118,43 +118,43 @@ export const CalendarHeader = defineComponent({
           { class: "calendar-vue__month-title" },
           props.mode === "years"
             ? h(
-                "span",
-                { class: "calendar-vue__year-window" },
-                `${props.yearWindowStart}–${props.yearWindowStart + 19}`,
-              )
+              "span",
+              { class: "calendar-vue__year-window" },
+              `${props.yearWindowStart}–${props.yearWindowStart + 19}`,
+            )
             : [
-                h(
-                  "span",
-                  {
-                    class: "calendar-vue__month",
-                    role: "button",
-                    tabindex: 0,
-                    title: t("calendar.selectMonth"),
-                    "aria-label": t("calendar.selectMonth"),
-                    "aria-pressed": props.mode === "months" ? "true" : "false",
-                    onClick: () => emit("selectMonth"),
-                    onKeydown: (event: KeyboardEvent) =>
-                      activateOnKeyboard(event, () => emit("selectMonth")),
-                  },
-                  props.monthLabel,
-                ),
-                " ",
-                h(
-                  "span",
-                  {
-                    class: "calendar-vue__year",
-                    role: "button",
-                    tabindex: 0,
-                    title: t("calendar.selectYear"),
-                    "aria-label": t("calendar.selectYear"),
-                    "aria-pressed": "false",
-                    onClick: () => emit("selectYear"),
-                    onKeydown: (event: KeyboardEvent) =>
-                      activateOnKeyboard(event, () => emit("selectYear")),
-                  },
-                  String(props.year),
-                ),
-              ],
+              h(
+                "span",
+                {
+                  class: "calendar-vue__month",
+                  role: "button",
+                  tabindex: 0,
+                  title: t("calendar.selectMonth"),
+                  "aria-label": t("calendar.selectMonth"),
+                  "aria-pressed": props.mode === "months" ? "true" : "false",
+                  onClick: () => emit("selectMonth"),
+                  onKeydown: (event: KeyboardEvent) =>
+                    activateOnKeyboard(event, () => emit("selectMonth")),
+                },
+                props.monthLabel,
+              ),
+              " ",
+              h(
+                "span",
+                {
+                  class: "calendar-vue__year",
+                  role: "button",
+                  tabindex: 0,
+                  title: t("calendar.selectYear"),
+                  "aria-label": t("calendar.selectYear"),
+                  "aria-pressed": "false",
+                  onClick: () => emit("selectYear"),
+                  onKeydown: (event: KeyboardEvent) =>
+                    activateOnKeyboard(event, () => emit("selectYear")),
+                },
+                String(props.year),
+              ),
+            ],
         ),
         h("div", { class: "calendar-vue__header-actions" }, [
           h("div", { class: "calendar-vue__legend", "aria-label": t("calendar.legend") }, [
@@ -164,6 +164,14 @@ export const CalendarHeader = defineComponent({
                 "aria-hidden": "true",
               }),
               h("span", t("calendar.dailyNote")),
+            ]),
+            h("span", { class: "calendar-vue__legend-item" }, [
+              h("span",
+                {
+                  class: "calendar-vue__dot calendar-vue__dot--note",
+                  "aria-hidden": "true",
+                }),
+              h("span", t("calendar.note")),
             ]),
             h("span", { class: "calendar-vue__legend-item" }, [
               h("span", {

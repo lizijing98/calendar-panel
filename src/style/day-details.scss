@@ -42,6 +42,10 @@
     letter-spacing: 0.04em;
   }
 
+  &__notes-heading:first-child {
+    margin-top: 0;
+  }
+
   &__note-list {
     margin: 0;
     padding: 0;

@@ -1,6 +1,6 @@
 {
   "name": "calendar-panel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "日记与周记的日历面板Obsidian插件 / An Obsidian plugin of calendar panel view for daily and weekly note.",
   "main": "dist/main.js",
   "type": "module",
@@ -8,8 +8,8 @@
     "dev": "vite build --watch --mode development",
     "build": "tsc --noEmit --skipLibCheck && vite build",
     "lint": "eslint .",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run --reporter=verbose",
+    "test:watch": "vitest --reporter=verbose",
     "verify:release": "node scripts/verify-release-version.mjs",
     "version": "node version-bump.mjs && git add manifest.json versions.json"
   },

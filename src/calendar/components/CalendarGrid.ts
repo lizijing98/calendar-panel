@@ -14,8 +14,8 @@ import { activateOnKeyboard } from "../keyboard";
 /**
  * 日期网格组件。
  *
- * 渲染星期标题、日期单元格及可选的周数列；实心圆点表示笔记存在，
- * 空心圆点表示该笔记含有未完成任务。
+ * 渲染星期标题、日期单元格及可选的周数列；实心圆点表示日记存在，
+ * 星号表示存在 Frontmatter 日期笔记，空心圆点表示日记含有未完成任务。
  */
 export const CalendarGrid = defineComponent({
   name: "CalendarGrid",
@@ -56,9 +56,10 @@ export const CalendarGrid = defineComponent({
       params?: Parameters<typeof translate>[2],
     ): string => translate(props.state.uiLocale, key, params);
 
-    /** 根据笔记存在状态和未完成任务状态渲染实心、空心圆点。 */
+    /** 按日记、日期笔记、待办的固定顺序渲染网格标记。 */
     const renderDots = (
       hasNote: boolean,
+      hasDatedNotes: boolean,
       metadata: NoteMetadata | undefined,
     ): VNode => {
       const dots: VNode[] = [];
@@ -67,6 +68,14 @@ export const CalendarGrid = defineComponent({
           h("span", {
             class: "calendar-vue__dot calendar-vue__dot--filled",
             key: "note",
+          }),
+        );
+      }
+      if (hasDatedNotes) {
+        dots.push(
+          h("span", {
+            class: "calendar-vue__dot calendar-vue__dot--note",
+            key: "dated-note",
           }),
         );
       }
@@ -84,6 +93,7 @@ export const CalendarGrid = defineComponent({
     /** 渲染单个日期；右键菜单和悬浮预览仅在日记存在时生效。 */
     const renderDay = (day: CalendarDay): VNode => {
       const file = props.state.dailyNotes[day.id];
+      const hasDatedNotes = Boolean(props.state.datedNotes[day.id]?.length);
       const metadata = file ? props.state.metadata[file.path] : undefined;
       const classes = ["calendar-vue__day"];
       if (!day.isCurrentMonth) classes.push("is-outside-month");
@@ -103,6 +113,9 @@ export const CalendarGrid = defineComponent({
       const taskStatus = metadata?.hasIncompleteTasks
         ? t("calendar.incompleteTasksSuffix")
         : "";
+      const datedNotesStatus = hasDatedNotes
+        ? t("calendar.notesSuffix")
+        : "";
 
       return h("td", {
         class: ["calendar-vue__cell", [0, 6].includes(day.date.day()) ? "is-weekend" : ""],
@@ -118,6 +131,7 @@ export const CalendarGrid = defineComponent({
             "aria-label": t("calendar.dayAria", {
               date: dateLabel,
               noteStatus,
+              datedNotesStatus,
               taskStatus,
             }),
             ...attributes,
@@ -143,7 +157,7 @@ export const CalendarGrid = defineComponent({
             metadata?.emojiTag
               ? h("span", { class: "calendar-vue__emoji", "aria-hidden": "true" }, metadata.emojiTag)
               : null,
-            renderDots(Boolean(file), metadata),
+            renderDots(Boolean(file), hasDatedNotes, metadata),
           ],
         ),
       ]);
@@ -197,7 +211,7 @@ export const CalendarGrid = defineComponent({
           },
           [
             h("span", { class: "calendar-vue__week-number" }, String(week.weekNumber)),
-            renderDots(Boolean(file), metadata),
+            renderDots(Boolean(file), false, metadata),
           ],
         ),
       ]);

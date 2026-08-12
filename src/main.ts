@@ -135,14 +135,10 @@ export default class CalendarPlugin extends Plugin {
     );
   }
 
-  /** 加载持久化配置，并丢弃旧版已经移除的 wordsPerDot 字段。 */
+  /** 加载持久化配置并补齐默认值。 */
   private async loadSettings(): Promise<void> {
-    const stored = (await this.loadData()) as
-      | (Partial<CalendarSettings> & { wordsPerDot?: unknown })
-      | null;
-    const currentSettings = { ...(stored ?? {}) };
-    delete currentSettings.wordsPerDot;
-    this.settings = { ...DEFAULT_SETTINGS, ...currentSettings };
+    const stored = (await this.loadData()) as Partial<CalendarSettings> | null;
+    this.settings = { ...DEFAULT_SETTINGS, ...(stored ?? {}) };
   }
 
   /**

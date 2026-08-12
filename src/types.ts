@@ -71,6 +71,8 @@ export interface CalendarState {
   selectedId: string | null;
   dailyNotes: Record<string, TFile>;
   weeklyNotes: Record<string, TFile>;
+  /** Frontmatter 中包含可见日期的普通笔记，按 YYYY-MM-DD 分组。 */
+  datedNotes: Record<string, TFile[]>;
   metadata: Record<string, NoteMetadata>;
   settings: CalendarSettings;
   /** 已解析为中文或英文的实际界面语言。 */
@@ -93,4 +95,6 @@ export interface CalendarController {
   showFileMenu(file: TFile, event: MouseEvent): void;
   showHoverPreview(file: TFile, event: MouseEvent, target: HTMLElement): void;
   loadMetadata(files: TFile[]): Promise<void>;
+  loadDatedNotes(dateIds: string[]): Promise<void>;
+  openNote(file: TFile, inNewSplit: boolean): Promise<void>;
 }

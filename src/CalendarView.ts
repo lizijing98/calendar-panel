@@ -14,6 +14,7 @@ import {
   getWeekId,
   startOfConfiguredWeek,
 } from "./calendar/date-grid";
+import { groupNotesByVisibleFrontmatterDates } from "./calendar/frontmatter-dates";
 import { readNoteMetadata } from "./calendar/note-metadata";
 import { DATE_FORMAT, VIEW_TYPE_CALENDAR } from "./constants";
 import { moment } from "./moment";
@@ -36,6 +37,7 @@ export class CalendarView extends ItemView implements CalendarController {
   private vueApp: VueApp<Element> | null = null;
   private readonly state: CalendarState;
   private readonly noteService: NoteService;
+  private datedNotesRequestId = 0;
 
   constructor(
     leaf: WorkspaceLeaf,
@@ -49,6 +51,7 @@ export class CalendarView extends ItemView implements CalendarController {
       selectedId: null,
       dailyNotes: {},
       weeklyNotes: {},
+      datedNotes: {},
       metadata: {},
       settings: { ...plugin.settings },
       uiLocale: plugin.i18n.locale,
@@ -209,6 +212,36 @@ export class CalendarView extends ItemView implements CalendarController {
       }
       this.state.metadata = nextMetadata;
     }
+  }
+
+  /**
+   * 异步查询 Frontmatter 中包含当前可见日期的普通笔记。
+   * 日记已经由独立索引展示，因此从结果中排除，避免详情面板重复。
+   */
+  async loadDatedNotes(dateIds: string[]): Promise<void> {
+    const requestId = ++this.datedNotesRequestId;
+    const visibleDateIds = new Set(dateIds);
+    const dailyPaths = new Set(
+      Object.values(this.state.dailyNotes).map((file) => file.path),
+    );
+
+    // 将全库 Frontmatter 缓存查询移出当前渲染调用栈。
+    await Promise.resolve();
+
+    const datedNotes = groupNotesByVisibleFrontmatterDates(
+      this.app.vault.getMarkdownFiles(),
+      (file) => this.app.metadataCache.getFileCache(file)?.frontmatter,
+      visibleDateIds,
+      dailyPaths,
+    );
+    if (requestId === this.datedNotesRequestId) {
+      this.state.datedNotes = datedNotes;
+    }
+  }
+
+  /** 在当前分栏或新分栏中打开详情面板中的普通笔记。 */
+  async openNote(file: TFile, inNewSplit: boolean): Promise<void> {
+    await this.openFile(file, inNewSplit);
   }
 
   /** 在日历中定位 Obsidian 当前活动的日记或周记。 */
