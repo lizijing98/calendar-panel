@@ -13,6 +13,7 @@ import {
   CalendarHeader,
   type CalendarMode,
 } from "./components/CalendarHeader";
+import { CalendarLegend } from "./components/CalendarLegend";
 import { DayDetails } from "./components/DayDetails";
 import { MonthPicker } from "./components/MonthPicker";
 import { YearPicker } from "./components/YearPicker";
@@ -182,6 +183,7 @@ export const CalendarApp = defineComponent({
                 selectedDayId.value = selected.id;
               },
             }),
+        h(CalendarLegend, { locale: props.state.uiLocale }),
         day
           ? h(DayDetails, {
             day,

@@ -72,10 +72,12 @@
   }
 
   &__legend {
+    margin: 8px 8px 0;
     display: flex;
     min-width: max-content;
     flex: 0 0 auto;
     align-items: center;
+    justify-content: end;
     gap: 6px;
     color: var(--text-faint);
     font-size: 0.75em;
