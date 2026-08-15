@@ -18,7 +18,7 @@
 - 按住 `Ctrl` 或 `Command` 点击，在新分栏中打开日记或周记。
 - 按住 `Ctrl` 或 `Command` 悬停，使用 Obsidian 原生链接预览查看已有笔记。
 
-![screenshot-full-other-day.png](./images/screenshot-full-other-day.png)
+![screenshot-full-1.png](./images/screenshot-full-1.png)
 
 ## 语言与日期
 

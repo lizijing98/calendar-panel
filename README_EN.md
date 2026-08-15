@@ -17,7 +17,7 @@ Calendar Panel is an Obsidian plugin that provides a simple calendar view for vi
 - Hold `Ctrl` or `Command` while clicking to open a daily or weekly note in a new split.
 - Hold `Ctrl` or `Command` while hovering to preview an existing note using Obsidian's native link preview.
 
-![screenshot-full-other-day.png](./images/screenshot-full-other-day.png)
+![screenshot-full-1.png](./images/screenshot-full-1.png)
 
 ## Language and Dates
 
