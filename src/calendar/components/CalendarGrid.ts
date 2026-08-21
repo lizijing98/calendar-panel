@@ -90,7 +90,7 @@ export const CalendarGrid = defineComponent({
       return h("span", { class: "calendar-vue__dots", "aria-hidden": "true" }, dots);
     };
 
-    /** 渲染单个日期；右键菜单和悬浮预览仅在日记存在时生效。 */
+    /** 渲染单个日期；双击打开日记，悬浮预览仅在日记存在时生效。 */
     const renderDay = (day: CalendarDay): VNode => {
       const file = props.state.dailyNotes[day.id];
       const hasDatedNotes = Boolean(props.state.datedNotes[day.id]?.length);
@@ -136,13 +136,13 @@ export const CalendarGrid = defineComponent({
             }),
             ...attributes,
             onClick: select,
+            onDblclick: (event: MouseEvent) =>
+              void props.controller.openDay(
+                day.date,
+                event.metaKey || event.ctrlKey,
+              ),
             onKeydown: (event: KeyboardEvent) =>
               activateOnKeyboard(event, select),
-            onContextmenu: (event: MouseEvent) => {
-              if (!file) return;
-              event.preventDefault();
-              props.controller.showFileMenu(file, event);
-            },
             onMouseenter: (event: MouseEvent) => {
               if (!file || (!event.metaKey && !event.ctrlKey)) return;
               props.controller.showHoverPreview(
@@ -195,11 +195,6 @@ export const CalendarGrid = defineComponent({
               activateOnKeyboard(event, () => {
                 void props.controller.openWeek(week.start, event.metaKey || event.ctrlKey);
               }),
-            onContextmenu: (event: MouseEvent) => {
-              if (!file) return;
-              event.preventDefault();
-              props.controller.showFileMenu(file, event);
-            },
             onMouseenter: (event: MouseEvent) => {
               if (!file || (!event.metaKey && !event.ctrlKey)) return;
               props.controller.showHoverPreview(

@@ -70,6 +70,8 @@
 
     &.is-today {
       color: var(--color-text-today);
+      position: relative;
+      border: 1px dashed var(--color-text-today);
     }
 
     &.is-inspected:not(.is-selected) {
