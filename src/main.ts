@@ -1,5 +1,4 @@
 import {
-  Notice,
   Plugin,
   WorkspaceLeaf,
   setTooltip,
@@ -29,6 +28,7 @@ export default class CalendarPlugin extends Plugin {
     string,
     { dow: number; doy: number }
   >();
+  private viewCreationPromise: Promise<CalendarView> | null = null;
 
   async onload(): Promise<void> {
     await this.loadSettings();
@@ -182,21 +182,32 @@ export default class CalendarPlugin extends Plugin {
     await this.app.workspace.revealLeaf(view.leaf);
   }
 
-  /** 优先复用现有日历叶子，否则在右侧边栏创建一个新视图。 */
-  private async getOrCreateView(): Promise<CalendarView> {
-    const existing = this.app.workspace.getLeavesOfType(VIEW_TYPE_CALENDAR)[0];
-    if (existing?.view instanceof CalendarView) {
-      return existing.view;
-    }
+  /** 复用同一次异步初始化，避免多个入口并发创建重复的日历叶子。 */
+  private getOrCreateView(): Promise<CalendarView> {
+    this.viewCreationPromise ??= this.resolveCalendarView().finally(() => {
+      this.viewCreationPromise = null;
+    });
+    return this.viewCreationPromise;
+  }
 
-    const leaf = this.app.workspace.getRightLeaf(false);
-    if (!leaf) {
-      new Notice(this.i18n.t("notice.createViewFailed"));
-      throw new Error("No workspace leaf available for calendar view");
-    }
-    await leaf.setViewState({ type: VIEW_TYPE_CALENDAR, active: true });
+  /** 优先加载并复用现有日历叶子，否则在右侧边栏创建一个新视图。 */
+  private async resolveCalendarView(): Promise<CalendarView> {
+    const existingLeaves = this.app.workspace.getLeavesOfType(
+      VIEW_TYPE_CALENDAR,
+    );
+    const leaf =
+      existingLeaves[0] ??
+      (await this.app.workspace.ensureSideLeaf(VIEW_TYPE_CALENDAR, "right", {
+        active: true,
+      }));
+
+    await leaf.loadIfDeferred();
     if (!(leaf.view instanceof CalendarView)) {
       throw new Error("Calendar view failed to initialize");
+    }
+
+    for (const duplicate of existingLeaves.slice(1)) {
+      duplicate.detach();
     }
     return leaf.view;
   }
